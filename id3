@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+
+playTennis = pd.read_csv("path_to_your_file.csv")
+
+from sklearn.preprocessing import LabelEncoder
+Le = LabelEncoder()
+
+
+playTennis['Outlook'] = Le.fit_transform(playTennis['Outlook'])
+playTennis['rain'] = Le.fit_transform(playTennis['rain'])
+playTennis['humidity'] = Le.fit_transform(playTennis['humidity'])
+playTennis['windy'] = Le.fit_transform(playTennis['windy'])
+playTennis['play'] = Le.fit_transform(playTennis['play'])
+print(playTennis)
+
+y = playTennis['play']
+x = playTennis.drop(labels=['play'], axis=1)
+
+from sklearn import tree
+clf = tree.DecisionTreeClassifier(criterion='entropy')
+clf = clf.fit(x, y)
+x_pred = clf.predict(x)
+
+from sklearn.metrics import confusion_matrix, classification_report
+print(confusion_matrix(y, x_pred))
+print(classification_report(y, x_pred))
+
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+plt.figure()
+tree.plot_tree(clf, fontsize=6)
+plt.savefig('tree.jpg', format='jpg', bbox_inches='tight')
+plt.show()
