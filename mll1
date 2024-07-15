@@ -1,0 +1,30 @@
+import csv
+a=[]
+
+print("\n Trainingg datset\n")
+with open("sunny.csv", 'r') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        a.append(reader)
+        print(row)
+
+num_attr =len(a[0])-1
+print("\n Initial value")
+hypothesis = ['0']* num_attr
+print(hypothesis)
+
+for j in range(0, num_attr):
+    hypothesis[0] = a[0][j]
+print("\n Max")
+
+for i in range(0, len(a)):
+    if a[i][num_attr] == 'yes':
+        for j in range(0, num_attr):
+            if a[i][j] != hypothesis[j]:
+                hypothesis ='?'
+            else:
+                hypothesis[j]= a[i][j]
+
+print("\n Traning instance {0} " .format(i), hypothesis )
+print("\n Max")
+print(hypotesis)
