@@ -1,0 +1,32 @@
+import csv
+
+a = []
+
+print("\n Training dataset\n")
+with open(r"C:\Users\Dhanushree T S\Downloads\sunny.csv", 'r') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        a.append(row)  # corrected to append row instead of reader
+        print(row)
+
+num_attr = len(a[0]) - 1
+print("\n Initial value")
+hypothesis = ['0'] * num_attr
+print(hypothesis)
+
+for j in range(0, num_attr):
+    hypothesis[j] = a[0][j]  
+
+print("\n Max")
+
+for i in range(0, len(a)):
+    if a[i][num_attr] == 'yes':
+        for j in range(0, num_attr):
+            if a[i][j] != hypothesis[j]:
+                hypothesis[j] = '?' 
+            else:
+                hypothesis[j] = a[i][j]
+
+print("\n Training instance {0} ".format(i), hypothesis)
+print("\n Max")
+print(hypothesis) 
