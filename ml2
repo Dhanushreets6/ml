@@ -1,0 +1,43 @@
+import numpy as np
+import pandas as pd
+
+data = pd.read_csv('sunny.csv') 
+concepts = np.array(data.iloc[:, :-1]) 
+target = np.array(data.iloc[:, -1])  
+
+def learn(concepts, target):
+    specific_h = ["0" for i in range(len(concepts[0]))]
+    print("\nSpecific initialized")
+    specific_h = concepts[0].copy()
+
+    generic_h = [["?" for i in range(len(specific_h))] for _ in range(len(specific_h))]
+    print("\nGeneric initialized")
+    for i, h in enumerate(concepts):
+        if target[i] == 'yes':
+            print("\nPositive")
+            for x in range(len(specific_h)):
+                if h[x] != specific_h[x]:
+                    specific_h[x] = '?'
+                    generic_h[x][x] = '?'
+
+        if target[i] == 'no':
+            print("\nNegative")
+            for x in range(len(specific_h)):
+                if h[x] != specific_h[x]:
+                    generic_h[x][x] = specific_h[x]
+                else:
+                    generic_h[x][x] = '?'
+
+        print(f"Step {i+1}")
+        print(specific_h)
+        print(generic_h)
+        print("\n")
+
+    indices = [i for i, val in enumerate(generic_h) if val == ['?', '?', '?', '?', '?', '?']]
+    for i in indices:
+        generic_h.remove(['?', '?', '?', '?', '?', '?'])
+    return specific_h, generic_h
+
+s_final, g_final = learn(concepts, target)
+print("\nSpecific values:", s_final)
+print("\nGeneric values:", g_final)
