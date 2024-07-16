@@ -1,0 +1,26 @@
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import datasets
+
+# Load the iris dataset
+iris = datasets.load_iris()
+print("Iris Data set loaded....")
+
+# Split the dataset into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.1, random_state=0)
+
+# Print the labels of the dataset
+for i in range(len(iris.target_names)):
+    print("Label", i, " ", str(iris.target_names[i]))
+
+# Instantiate and train the KNeighborsClassifier
+classifier = KNeighborsClassifier(n_neighbors=1)
+classifier.fit(x_train, y_train)
+
+# Make predictions on the test set
+y_pred = classifier.predict(x_test)
+
+# Print the results
+print("Result")
+for r in range(len(x_test)):
+    print("Sample:", str(x_test[r]), "Actual label:", str(y_test[r]), "Predicted label:", str(y_pred[r]))
